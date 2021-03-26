@@ -8,7 +8,6 @@ public enum TokenType {
     RIGHTBRACE,
     SEMICOLON,
     COLON,
-
     EQUALEQUAL,
     BANGEQUAL,
     GREATEREQUAL,
@@ -21,7 +20,6 @@ public enum TokenType {
     SLASH,
     STAR,
     PLUS,
-
     ELSE,
     FALSE,
     IF,
@@ -29,12 +27,11 @@ public enum TokenType {
     TRUE,
     LET,
     CONST,
-
     STRING,
     NUMBER,
     BOOLEAN,
     IDENTIFIER,
-
     EOF,
     NEWLINE
+
 }

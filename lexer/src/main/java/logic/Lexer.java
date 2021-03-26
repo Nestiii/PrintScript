@@ -1,6 +1,6 @@
 package logic;
 
-import exceptions.LexerException;
+import exception.LexerException;
 import token.Token;
 
 import java.io.InputStreamReader;

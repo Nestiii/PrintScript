@@ -1,4 +1,4 @@
-import exceptions.LexerException;
+import exception.LexerException;
 import logic.Lexer;
 import logic.LexerImpl;
 import org.junit.Assert;
