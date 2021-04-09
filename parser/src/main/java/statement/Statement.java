@@ -5,7 +5,7 @@ import visitor.StatementVisitor;
 
 public interface Statement {
 
-    Expression getExpression();
-    void accept(StatementVisitor visitor);
+  Expression getExpression();
 
+  void accept(StatementVisitor visitor);
 }

@@ -5,24 +5,24 @@ import visitor.ExpressionVisitor;
 
 public class UnaryExpression implements Expression {
 
-    private final Token operand;
-    private final Expression expression;
+  private final Token operand;
+  private final Expression expression;
 
-    public UnaryExpression(Token operand, Expression expression) {
-        this.operand = operand;
-        this.expression = expression;
-    }
+  public UnaryExpression(Token operand, Expression expression) {
+    this.operand = operand;
+    this.expression = expression;
+  }
 
-    public Token getOperand() {
-        return operand;
-    }
+  public Token getOperand() {
+    return operand;
+  }
 
-    public Expression getExpression() {
-        return expression;
-    }
+  public Expression getExpression() {
+    return expression;
+  }
 
-    @Override
-    public Object accept(ExpressionVisitor visitor) {
-        return visitor.visit(this);
-    }
+  @Override
+  public Object accept(ExpressionVisitor visitor) {
+    return visitor.visit(this);
+  }
 }

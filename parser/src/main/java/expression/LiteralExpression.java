@@ -4,18 +4,18 @@ import visitor.ExpressionVisitor;
 
 public class LiteralExpression implements Expression {
 
-    private final Object value;
+  private final Object value;
 
-    public LiteralExpression(Object value) {
-        this.value = value;
-    }
+  public LiteralExpression(Object value) {
+    this.value = value;
+  }
 
-    public Object getValue() {
-        return value;
-    }
+  public Object getValue() {
+    return value;
+  }
 
-    @Override
-    public Object accept(ExpressionVisitor visitor) {
-        return visitor.visit(this);
-    }
+  @Override
+  public Object accept(ExpressionVisitor visitor) {
+    return visitor.visit(this);
+  }
 }
