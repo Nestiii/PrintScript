@@ -16,6 +16,7 @@ public class LexemeMatcherImpl implements LexemeMatcher {
 
   @Override
   public Pattern getPattern() {
+
     return pattern;
   }
 
