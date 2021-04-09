@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id "com.github.sherter.google-java-format" version "0.9"
     id 'jacoco'
+    id 'com.novoda.static-analysis' version '1.2'
 }
 
 group 'org.example'
@@ -9,6 +10,17 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+staticAnalysis {
+    penalty {
+        maxErrors = 0
+        maxWarnings = 0
+    }
+    checkstyle { }
+    pmd { }
+    detekt { }
+    lintOptions { }
 }
 
 dependencies {
