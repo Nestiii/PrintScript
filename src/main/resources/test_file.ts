@@ -1,16 +1,14 @@
-// @ts-nocheck
 let a: number = 2.0;
 const b: string  = "hola";
 
-
 print(a);
-print (b);
+print b;
 
 a = 3;
-print (a);
+print a;
 {
     let e: string = 'inside block';
-    print (e);
+    print e;
 
 }
 

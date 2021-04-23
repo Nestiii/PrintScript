@@ -37,5 +37,18 @@ jacoco {
     toolVersion = "0.8.6"
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+group 'com.austral'
+version '1.0.1'
+
 tasks.build.dependsOn(tasks.googleJavaFormat)
 verifyGoogleJavaFormat.mustRunAfter(tasks.googleJavaFormat)

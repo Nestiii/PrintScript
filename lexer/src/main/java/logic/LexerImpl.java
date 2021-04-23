@@ -93,7 +93,7 @@ public class LexerImpl implements Lexer {
                   return addToken(tokenType, matcher.group(), this.line, null);
                 }
               })
-          .map(token -> this.checkDisabledFeatures(token, constActive, booleanActive))
+          .map(token -> this.checkDisabledFeatures(token, booleanActive, constActive))
           .orElseThrow(() -> new LexerException("Lexer Error", this.line));
     }
     tokens.add(
