@@ -6,9 +6,6 @@ plugins {
     id 'maven-publish'
 }
 
-group 'org.example'
-version '1.0.2'
-
 repositories {
     mavenCentral()
 }
@@ -48,8 +45,9 @@ jar {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
 group 'com.austral'
-version '1.0.1'
+version '1.0.2'
 
 tasks.build.dependsOn(tasks.googleJavaFormat)
 verifyGoogleJavaFormat.mustRunAfter(tasks.googleJavaFormat)
