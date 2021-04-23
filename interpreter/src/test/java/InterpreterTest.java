@@ -10,9 +10,9 @@ import token.TokenType;
 
 public class InterpreterTest {
 
-  private Interpreter interpreter = new InterpreterImpl();
-  private Parser parser = new ParserImpl();
-  private Lexer lexer = new LexerImpl();
+  private final Interpreter interpreter = new InterpreterImpl();
+  private final Parser parser = new ParserImpl();
+  private final Lexer lexer = new LexerImpl();
 
   private InputStreamReader getSource(String code) {
     return new InputStreamReader(new ByteArrayInputStream((code).getBytes()));
