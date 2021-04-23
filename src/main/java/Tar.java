@@ -28,17 +28,17 @@ public class Tar implements Callable<Integer> {
   @CommandLine.Option(
       names = {"-v", "--validate"},
       description = "Activates validation only")
-  private final boolean onlyValidate = false;
+  private boolean onlyValidate = false;
 
   @CommandLine.Option(
       names = {"-nb", "--noBoolean"},
       description = "Deactivates boolean feature")
-  private final boolean booleanActive = true;
+  private boolean booleanActive = true;
 
   @CommandLine.Option(
       names = {"-nc", "--noConst"},
       description = "Deactivates const feature")
-  private final boolean constActive = true;
+  private boolean constActive = true;
 
   private final Lexer lexer = new LexerImpl();
   private final Parser parser = new ParserImpl();
