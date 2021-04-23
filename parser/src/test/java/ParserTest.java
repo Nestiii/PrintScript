@@ -1,9 +1,8 @@
+import exception.ParserException;
+import expression.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-
-import exception.ParserException;
-import expression.*;
 import logic.Lexer;
 import logic.LexerImpl;
 import logic.Parser;
@@ -18,17 +17,15 @@ public class ParserTest {
   private final Lexer lexer = new LexerImpl();
   private final Parser parser = new ParserImpl();
 
-
   @Test
   public void checkIfStatementAndBlockStatement() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("if( a == 5 ) { let a: string = \"This is a test!\"; \n }")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(
+                    ("if( a == 5 ) { let a: string = \"This is a test!\"; \n }").getBytes())),
+            true,
+            true);
     List<Statement> statements = parser.parse(tokens);
     Assert.assertEquals(statements.get(0).getClass(), IfStatement.class);
     Assert.assertEquals(statements.get(0).getExpression().getClass(), BinaryExpression.class);
@@ -39,13 +36,11 @@ public class ParserTest {
   @Test
   public void checkPrintStatement() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("print(\"This is a test\");")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(("print(\"This is a test\");").getBytes())),
+            true,
+            true);
     List<Statement> statements = parser.parse(tokens);
     Assert.assertEquals(statements.get(0).getClass(), PrintStatement.class);
   }
@@ -53,13 +48,11 @@ public class ParserTest {
   @Test
   public void checkDeclarationAndAssignmentExpression() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("let a: number = 5.0; \n a = 8;")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(("let a: number = 5.0; \n a = 8;").getBytes())),
+            true,
+            true);
     List<Statement> statements = parser.parse(tokens);
     Assert.assertEquals(statements.get(0).getClass(), DeclarationStatement.class);
     Assert.assertEquals(statements.get(1).getExpression().getClass(), AssignmentExpression.class);
@@ -68,30 +61,22 @@ public class ParserTest {
   @Test
   public void checkUnaryExpression() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    (" a +- 2;")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(new ByteArrayInputStream((" a +- 2;").getBytes())), true, true);
     List<Statement> statements = parser.parse(tokens);
     BinaryExpression binaryExpression = (BinaryExpression) statements.get(0).getExpression();
     Assert.assertEquals(binaryExpression.getLeft().getClass(), VariableExpression.class);
     Assert.assertEquals(binaryExpression.getRight().getClass(), UnaryExpression.class);
   }
 
-
   @Test
   public void checkDeclarationStatementAndLiteralExpression() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("let a: string = \"This is a test!\"; \n")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(("let a: string = \"This is a test!\"; \n").getBytes())),
+            true,
+            true);
     List<Statement> statements = parser.parse(tokens);
     Assert.assertEquals(statements.get(0).getClass(), DeclarationStatement.class);
     Assert.assertEquals(statements.get(0).getExpression().getClass(), LiteralExpression.class);
@@ -100,13 +85,10 @@ public class ParserTest {
   @Test(expected = ParserException.class)
   public void statementsWithExtraParenthesis() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("if( a == 5 )) { a; }")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(new ByteArrayInputStream(("if( a == 5 )) { a; }").getBytes())),
+            true,
+            true);
 
     parser.parse(tokens);
   }
@@ -114,13 +96,10 @@ public class ParserTest {
   @Test(expected = ParserException.class)
   public void noSemiColonInsideBlockStatement() {
     List<Token> tokens =
-            lexer.getTokens(
-                    new InputStreamReader(
-                            new ByteArrayInputStream(
-                                    ("if( a == 5 )) { a }")
-                                            .getBytes())),
-                    true,
-                    true);
+        lexer.getTokens(
+            new InputStreamReader(new ByteArrayInputStream(("if( a == 5 )) { a }").getBytes())),
+            true,
+            true);
 
     parser.parse(tokens);
   }

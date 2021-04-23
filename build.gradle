@@ -47,7 +47,7 @@ jar {
 }
 
 group 'com.austral'
-version '1.0.2'
+version '1.0.3'
 
 tasks.build.dependsOn(tasks.googleJavaFormat)
 verifyGoogleJavaFormat.mustRunAfter(tasks.googleJavaFormat)
