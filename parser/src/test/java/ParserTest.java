@@ -3,8 +3,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import exception.ParserException;
-import expression.BinaryExpression;
-import expression.LiteralExpression;
+import expression.*;
 import logic.Lexer;
 import logic.LexerImpl;
 import logic.Parser;
@@ -52,6 +51,38 @@ public class ParserTest {
   }
 
   @Test
+  public void checkDeclarationAndAssignmentExpression() {
+    List<Token> tokens =
+            lexer.getTokens(
+                    new InputStreamReader(
+                            new ByteArrayInputStream(
+                                    ("let a: number = 5.0; \n a = 8;")
+                                            .getBytes())),
+                    true,
+                    true);
+    List<Statement> statements = parser.parse(tokens);
+    Assert.assertEquals(statements.get(0).getClass(), DeclarationStatement.class);
+    Assert.assertEquals(statements.get(1).getExpression().getClass(), AssignmentExpression.class);
+  }
+
+  @Test
+  public void checkUnaryExpression() {
+    List<Token> tokens =
+            lexer.getTokens(
+                    new InputStreamReader(
+                            new ByteArrayInputStream(
+                                    (" a +- 2;")
+                                            .getBytes())),
+                    true,
+                    true);
+    List<Statement> statements = parser.parse(tokens);
+    BinaryExpression binaryExpression = (BinaryExpression) statements.get(0).getExpression();
+    Assert.assertEquals(binaryExpression.getLeft().getClass(), VariableExpression.class);
+    Assert.assertEquals(binaryExpression.getRight().getClass(), UnaryExpression.class);
+  }
+
+
+  @Test
   public void checkDeclarationStatementAndLiteralExpression() {
     List<Token> tokens =
             lexer.getTokens(
@@ -81,7 +112,7 @@ public class ParserTest {
   }
 
   @Test(expected = ParserException.class)
-  public void invalidBlockStatementInsideIfStatement() {
+  public void noSemiColonInsideBlockStatement() {
     List<Token> tokens =
             lexer.getTokens(
                     new InputStreamReader(
