@@ -82,6 +82,50 @@ public class ParserTest {
     Assert.assertEquals(statements.get(0).getExpression().getClass(), LiteralExpression.class);
   }
 
+  @Test
+  public void checkComparison() {
+    List<Token> tokens =
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(
+                    ("""
+                                            3 < 2;
+                                            3 <= 2;
+                                            3 > 2;
+                                            3 >= 2;
+                                            """)
+                        .getBytes())),
+            true,
+            true);
+    List<Statement> statements = parser.parse(tokens);
+    Assert.assertEquals(statements.get(0).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(1).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(2).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(3).getClass(), ExpressionStatement.class);
+  }
+
+  @Test
+  public void checkOperations() {
+    List<Token> tokens =
+        lexer.getTokens(
+            new InputStreamReader(
+                new ByteArrayInputStream(
+                    ("""
+                                            3 + 2;
+                                            3 - 2;
+                                            3 / 2;
+                                            3 * 2;
+                                            """)
+                        .getBytes())),
+            true,
+            true);
+    List<Statement> statements = parser.parse(tokens);
+    Assert.assertEquals(statements.get(0).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(1).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(2).getClass(), ExpressionStatement.class);
+    Assert.assertEquals(statements.get(3).getClass(), ExpressionStatement.class);
+  }
+
   @Test(expected = ParserException.class)
   public void statementsWithExtraParenthesis() {
     List<Token> tokens =
