@@ -37,7 +37,8 @@ public class CLI implements Callable<Integer> {
     return new InputStreamReader(new ByteArrayInputStream((code).getBytes()));
   }
 
-  private List<Statement> generateStatements(File file, String version) throws FileNotFoundException {
+  private List<Statement> generateStatements(File file, String version)
+      throws FileNotFoundException {
     BufferedReader br = new BufferedReader(new FileReader(file));
     String lines = br.lines().collect(Collectors.joining("\n"));
     List<Token> tokens;
@@ -46,7 +47,8 @@ public class CLI implements Callable<Integer> {
     return parser.parse(tokens);
   }
 
-  public void execute(File file, String version, Consumer<String> emitter) throws FileNotFoundException {
+  public void execute(File file, String version, Consumer<String> emitter)
+      throws FileNotFoundException {
     List<Statement> statements = generateStatements(file, version);
     interpreter.interpret(statements, emitter);
   }

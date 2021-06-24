@@ -6,7 +6,6 @@ import exception.InterpreterException;
 import expression.*;
 import java.util.List;
 import java.util.function.Consumer;
-
 import statement.*;
 import token.Token;
 import visitor.ExpressionVisitor;
@@ -30,7 +29,8 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
   }
 
   @Override
-  public void interpret(List<Statement> statements, Consumer<String> emitter) throws InterpreterException {
+  public void interpret(List<Statement> statements, Consumer<String> emitter)
+      throws InterpreterException {
     for (Statement statement : statements) {
       statement.accept(this);
     }

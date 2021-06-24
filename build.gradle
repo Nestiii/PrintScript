@@ -50,8 +50,8 @@ jar {
 }
 
 googleJavaFormat {
-    exclude '/home/runner/work/PrintScript/PrintScript/interpreter/src/test/java/InterpreterTest.java'
-    exclude '/home/runner/work/PrintScript/PrintScript/parser/src/test/java/ParserTest.java'
+    exclude 'interpreter/src/test/java/InterpreterTest.java'
+    exclude 'parser/src/test/java/ParserTest.java'
 }
 
 tasks.build.dependsOn(tasks.googleJavaFormat)

@@ -2,7 +2,6 @@ package logic;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import statement.Statement;
 
 public interface Interpreter {
