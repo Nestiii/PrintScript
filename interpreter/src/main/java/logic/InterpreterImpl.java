@@ -5,6 +5,8 @@ import static token.TokenType.*;
 import exception.InterpreterException;
 import expression.*;
 import java.util.List;
+import java.util.function.Consumer;
+
 import statement.*;
 import token.Token;
 import visitor.ExpressionVisitor;
@@ -13,6 +15,7 @@ import visitor.StatementVisitor;
 public class InterpreterImpl implements Interpreter, ExpressionVisitor, StatementVisitor {
 
   private Environment environment = new EnvironmentImpl();
+  private Consumer<String> emitter = System.out::println;
 
   @Override
   public Environment getEnvironment() {
@@ -24,6 +27,14 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
     for (Statement statement : statements) {
       statement.accept(this);
     }
+  }
+
+  @Override
+  public void interpret(List<Statement> statements, Consumer<String> emitter) throws InterpreterException {
+    for (Statement statement : statements) {
+      statement.accept(this);
+    }
+    this.emitter = emitter;
   }
 
   @Override
@@ -133,6 +144,7 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
   public void visit(PrintStatement printStatement) {
     Object value = evaluate(printStatement.getExpression());
     System.out.println(value);
+    emitter.accept(value.toString());
   }
 
   @Override

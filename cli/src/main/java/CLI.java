@@ -6,6 +6,7 @@ import exception.ParserException;
 import java.io.*;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import logic.*;
 import picocli.CommandLine;
@@ -36,16 +37,25 @@ public class CLI implements Callable<Integer> {
     return new InputStreamReader(new ByteArrayInputStream((code).getBytes()));
   }
 
+  private List<Statement> generateStatements(File file, String version) throws FileNotFoundException {
+    BufferedReader br = new BufferedReader(new FileReader(file));
+    String lines = br.lines().collect(Collectors.joining("\n"));
+    List<Token> tokens;
+    if (version.equals("1.0")) tokens = lexer.getTokens(getSource(lines), false, false);
+    else tokens = lexer.getTokens(getSource(lines), true, true);
+    return parser.parse(tokens);
+  }
+
+  public void execute(File file, String version, Consumer<String> emitter) throws FileNotFoundException {
+    List<Statement> statements = generateStatements(file, version);
+    interpreter.interpret(statements, emitter);
+  }
+
   @Override
   public Integer call() {
     try {
       if (file == null) file = new File("src/main/resources/test_file.ts");
-      BufferedReader br = new BufferedReader(new FileReader(file));
-      String lines = br.lines().collect(Collectors.joining("\n"));
-      List<Token> tokens;
-      if (version.equals("1.0")) tokens = lexer.getTokens(getSource(lines), false, false);
-      else tokens = lexer.getTokens(getSource(lines), true, true);
-      List<Statement> statements = parser.parse(tokens);
+      List<Statement> statements = generateStatements(file, version);
       if (validateOnly) return 0;
       interpreter.interpret(statements);
     } catch (LexerException | ParserException | InterpreterException | FileNotFoundException e) {
