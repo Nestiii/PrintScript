@@ -9,6 +9,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/info.picocli/picocli/4.3.2/37a9ed41f7a028611775b6e8ad831e3e5fcd6280/picocli-4.3.2.jar" />
         </processorPath>
         <module name="printscript.main" />
+        <module name="printscript.cli.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="15" />
