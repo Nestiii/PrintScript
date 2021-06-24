@@ -155,4 +155,22 @@ public class InterpreterTest {
     Assert.assertEquals(interpreter.getEnvironment().getValues().get("a").getValue(), -2.0);
     Assert.assertEquals(interpreter.getEnvironment().getValues().get("b").getValue(), false);
   }
+
+  // names working: asd, asdNumber, asdnumber, a
+  // names not working: numberasd, number***
+
+  @Test
+  public void tsk1() {
+    List<Statement> statements =
+            parser.parse(
+                    lexer.getTokens(
+                            getSource(
+                                    """
+                                            let asdnumber: number = 5 * 5 - 8;
+                                            print(asdnumber);
+                                                                """),
+                            true,
+                            true));
+    interpreter.interpret(statements);
+  }
 }
