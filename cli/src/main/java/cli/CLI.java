@@ -49,9 +49,17 @@ public class CLI implements Callable<Integer> {
     return parser.parse(tokens);
   }
 
-  public void execute(File file, String version, Consumer<String> emitter)
-      throws FileNotFoundException {
-    List<Statement> statements = generateStatements(file, version);
+  public static void execute(File file, String version, Consumer<String> emitter) throws FileNotFoundException {
+    Interpreter interpreter = new InterpreterImpl();
+    Parser parser = new ParserImpl();
+    Lexer lexer = new LexerImpl();
+    BufferedReader br = new BufferedReader(new FileReader(file));
+    String lines = br.lines().collect(Collectors.joining("\n"));
+    List<Token> tokens;
+    InputStreamReader streamReader = new InputStreamReader(new ByteArrayInputStream((lines).getBytes()));
+    if (version.equals("1.0")) tokens = lexer.getTokens(streamReader, false, false);
+    else tokens = lexer.getTokens(streamReader, true, true);
+    List<Statement> statements = parser.parse(tokens);;
     interpreter.interpret(statements, emitter);
   }
 
