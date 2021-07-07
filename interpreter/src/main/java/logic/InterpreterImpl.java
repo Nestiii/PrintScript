@@ -23,10 +23,10 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
 
   @Override
   public void interpret(List<Statement> statements) throws InterpreterException {
+    this.emitter = System.out::println;
     for (Statement statement : statements) {
       statement.accept(this);
     }
-    this.emitter = System.out::println;
   }
 
   @Override
