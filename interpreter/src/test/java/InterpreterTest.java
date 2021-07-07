@@ -133,10 +133,10 @@ public class InterpreterTest {
                                 true,
                                 true));
         interpreter.interpret(statements);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 1.0);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 4.0);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 4.0);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 0.0);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 1);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 4);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 4);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 0);
     }
 
     @Test
@@ -154,7 +154,7 @@ public class InterpreterTest {
                 true,
                 true));
     interpreter.interpret(statements);
-    Assert.assertEquals(interpreter.getEnvironment().getValues().get("a").getValue(), -2.0);
+    Assert.assertEquals(interpreter.getEnvironment().getValues().get("a").getValue(), -2);
     Assert.assertEquals(interpreter.getEnvironment().getValues().get("b").getValue(), false);
   }
 }
