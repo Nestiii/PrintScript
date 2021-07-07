@@ -32,8 +32,8 @@ public class LexerImpl implements Lexer {
     lexemeMatchers.put(CONST, "const");
     lexemeMatchers.put(LET, "let");
     lexemeMatchers.put(STRING, "string|\\\"([_a-zA-Z0-9 !\\\\/.])*\\\"|'([_a-zA-Z0-9 !\\\\/.])*'");
-    lexemeMatchers.put(BOOLEAN, "boolean");
-    lexemeMatchers.put(NUMBER, "number|-?[0-9.]+");
+    lexemeMatchers.put(BOOLEAN, "\\bboolean\\b");
+    lexemeMatchers.put(NUMBER, "\\bnumber\\b|-?[0-9.]+");
     lexemeMatchers.put(LEFTBRACE, "[{]");
     lexemeMatchers.put(RIGHTBRACE, "[}]");
     lexemeMatchers.put(LEFTPAREN, "[(]");
