@@ -157,4 +157,20 @@ public class InterpreterTest {
     Assert.assertEquals(interpreter.getEnvironment().getValues().get("a").getValue(), -2);
     Assert.assertEquals(interpreter.getEnvironment().getValues().get("b").getValue(), false);
   }
+
+    @Test
+    public void tck() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let pi: number;
+                                                pi = 3.14;
+                                                println(pi / 2);
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+    }
 }

@@ -44,7 +44,6 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
     public Object visit(BinaryExpression binaryExpression) throws InterpreterException {
         Object left = evaluate(binaryExpression.getLeft());
         Object right = evaluate(binaryExpression.getRight());
-
         switch (binaryExpression.getOperand().getType()) {
             case BANGEQUAL:
                 return !isEqual(left, right);
@@ -53,35 +52,51 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
             case GREATER:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left > (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left > (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left > (double) right;
                 return (double) left > (double) right;
             case GREATEREQUAL:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left >= (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left >= (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left >= (double) right;
                 return (double) left >= (double) right;
             case LESS:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left < (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left < (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left < (double) right;
                 return (double) left < (double) right;
             case LESSEQUAL:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left <= (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left <= (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left <= (double) right;
                 return (double) left <= (double) right;
             case MINUS:
                 if (left instanceof Integer && right instanceof Integer) return (int) left - (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left - (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left - (double) right;
                 return (double) left - (double) right;
             case PLUS:
                 if (left instanceof Number && right instanceof Number) {
                     if (left instanceof Integer && right instanceof Integer) return (int) left + (int) right;
+                    if (left instanceof Double && right instanceof Integer) return (double) left + (int) right;
+                    if (left instanceof Integer && right instanceof Double) return (int) left + (double) right;
                     return (double) left + (double) right;
                 }
                 return left.toString() + right.toString();
             case SLASH:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left / (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left / (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left / (double) right;
                 return (double) left / (double) right;
             case STAR:
                 checkNumberOperands(binaryExpression.getOperand(), left, right);
                 if (left instanceof Integer && right instanceof Integer) return (int) left * (int) right;
+                if (left instanceof Double && right instanceof Integer) return (double) left * (int) right;
+                if (left instanceof Integer && right instanceof Double) return (int) left * (double) right;
                 return (double) left * (double) right;
         }
         return null;
@@ -143,7 +158,13 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
     }
 
     private void checkNumberOperands(Token operator, Object left, Object right) {
-        if (left instanceof Double && right instanceof Double || left instanceof Integer && right instanceof Integer)
+        System.out.println(left + " " + right);
+        if (
+                left instanceof Double && right instanceof Double ||
+                left instanceof Integer && right instanceof Integer ||
+                left instanceof Double && right instanceof Integer ||
+                left instanceof Integer && right instanceof Double
+        )
             return;
         throw new InterpreterException(operator, "Operands must be numbers");
     }
