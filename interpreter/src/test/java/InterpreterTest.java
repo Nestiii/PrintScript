@@ -117,26 +117,95 @@ public class InterpreterTest {
     }
 
     @Test
-    public void testOperations() {
+    public void testSum() {
         List<Statement> statements =
                 parser.parse(
                         lexer.getTokens(
                                 getSource(
                                         """
                                                 let a: number = 2;
-                                                let b: number = 2;
-                                                let c: number = a + b;
-                                                let d: number = a - b;
-                                                let e: number = a / b;
-                                                let f: number = a * b;
+                                                let b: number = 2.2;
+                                                let c: number = a + a;
+                                                let d: number = a + b;
+                                                let e: number = b + a;
+                                                let f: number = b + b;
                                                 """),
                                 true,
                                 true));
         interpreter.interpret(statements);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 1);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 4);
         Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 4);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 0);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 4.2);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 4.2);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 4.4);
+    }
+
+    @Test
+    public void testSub() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.5;
+                                                let c: number = a - a;
+                                                let d: number = a - b;
+                                                let e: number = b - a;
+                                                let f: number = b - b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 0);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), -0.5);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 0.5);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 0.0);
+    }
+
+    @Test
+    public void testMult() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.5;
+                                                let c: number = a * a;
+                                                let d: number = a * b;
+                                                let e: number = b * a;
+                                                let f: number = b * b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 4);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 5.0);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 5.0);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 6.25);
+    }
+
+    @Test
+    public void testDiv() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.5;
+                                                let c: number = a / a;
+                                                let d: number = a / b;
+                                                let e: number = b / a;
+                                                let f: number = b / b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), 1);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), 0.8);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), 1.25);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), 1.0);
     }
 
     @Test
@@ -167,10 +236,11 @@ public class InterpreterTest {
                                         """
                                                 let pi: number;
                                                 pi = 3.14;
-                                                println(pi / 2);
+                                                const a: number = pi / 2;
                                                 """),
                                 true,
                                 true));
         interpreter.interpret(statements);
+        System.out.println(interpreter.getEnvironment().getValues().get("a").getValue());
     }
 }
