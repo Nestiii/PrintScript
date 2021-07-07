@@ -14,7 +14,7 @@ import visitor.StatementVisitor;
 public class InterpreterImpl implements Interpreter, ExpressionVisitor, StatementVisitor {
 
   private Environment environment = new EnvironmentImpl();
-  private Consumer<String> emitter = System.out::println;
+  private Consumer<String> emitter;
 
   @Override
   public Environment getEnvironment() {
@@ -26,15 +26,16 @@ public class InterpreterImpl implements Interpreter, ExpressionVisitor, Statemen
     for (Statement statement : statements) {
       statement.accept(this);
     }
+    this.emitter = System.out::println;
   }
 
   @Override
   public void interpret(List<Statement> statements, Consumer<String> emitter)
       throws InterpreterException {
+    this.emitter = emitter;
     for (Statement statement : statements) {
       statement.accept(this);
     }
-    this.emitter = emitter;
   }
 
   @Override
