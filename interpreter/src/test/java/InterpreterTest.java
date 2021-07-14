@@ -90,20 +90,110 @@ public class InterpreterTest {
     }
 
     @Test
-    public void testConditionals() {
+    public void testEquals() {
         List<Statement> statements =
                 parser.parse(
                         lexer.getTokens(
                                 getSource(
                                         """
                                                 let a: number = 2;
-                                                let b: number = 2;
-                                                let c: boolean = a == b;
+                                                let b: number = 2.2;
+                                                let c: boolean = a == a;
+                                                let d: boolean = a == b;
+                                                let e: boolean = b == b;
+                                                let f: boolean = b == a;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), false);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), false);
+    }
+
+    @Test
+    public void testNotEquals() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.2;
+                                                let c: boolean = a != a;
                                                 let d: boolean = a != b;
-                                                let e: boolean = a > b;
-                                                let f: boolean = a >= b;
-                                                let g: boolean = a < b;
-                                                let h: boolean = a <= b;
+                                                let e: boolean = b != a;
+                                                let f: boolean = b != b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), false);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), false);
+    }
+
+    @Test
+    public void testGreater() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.2;
+                                                let c: boolean = a > b;
+                                                let d: boolean = a > a;
+                                                let e: boolean = b > a;
+                                                let f: boolean = b > b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), false);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), false);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), false);
+    }
+
+    @Test
+    public void testGraterEqual() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.2;
+                                                let c: boolean = a >= b;
+                                                let d: boolean = a >= a;
+                                                let e: boolean = b >= a;
+                                                let f: boolean = b >= b;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), false);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), true);
+    }
+
+    @Test
+    public void testLess() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.2;
+                                                let c: boolean = a < b;
+                                                let d: boolean = a < a;
+                                                let e: boolean = b < a;
+                                                let f: boolean = b < b;
                                                 """),
                                 true,
                                 true));
@@ -111,9 +201,30 @@ public class InterpreterTest {
         Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), true);
         Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), false);
         Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), false);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), true);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("g").getValue(), false);
-        Assert.assertEquals(interpreter.getEnvironment().getValues().get("h").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), false);
+    }
+
+    @Test
+    public void testLessEqual() {
+        List<Statement> statements =
+                parser.parse(
+                        lexer.getTokens(
+                                getSource(
+                                        """
+                                                let a: number = 2;
+                                                let b: number = 2.2;
+                                                let c: boolean = a <= b;
+                                                let d: boolean = a <= a;
+                                                let e: boolean = b <= b;
+                                                let f: boolean = b <= a;
+                                                """),
+                                true,
+                                true));
+        interpreter.interpret(statements);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("c").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("d").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("e").getValue(), true);
+        Assert.assertEquals(interpreter.getEnvironment().getValues().get("f").getValue(), false);
     }
 
     @Test
